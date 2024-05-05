@@ -191,9 +191,14 @@ impl<P: GridPrecision + Reflect + FromReflect + TypePath, const L: u8> Plugin fo
         .register_type::<GridCell<P,L>>()
         .register_type::<ReferenceFrame<P,L>>()
         .register_type::<RootReferenceFrame<P,L>>()
-        .add_plugins(ValidParentCheckPlugin::<GlobalTransform>::default())
         .add_systems(PostStartup, system_set_config())
         .add_systems(PostUpdate, system_set_config());
+
+    if !app.is_plugin_added::<ValidParentCheckPlugin::<GlobalTransform>>() {
+        app.add_plugins(ValidParentCheckPlugin::<GlobalTransform>::default());
+    }
+
+        
     }
 }
 

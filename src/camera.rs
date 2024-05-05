@@ -36,7 +36,7 @@ impl<P: GridPrecision, const L: u8> Plugin for CameraControllerPlugin<P,L> {
 
 /// Per-camera settings for the `big_space` floating origin camera controller.
 #[derive(Clone, Debug, Reflect, Component)]
-pub struct CameraController {
+pub struct CameraController<const L: u8=0> {
     /// Smoothness of translation, from `0.0` to `1.0`.
     pub smoothness: f64,
     /// Rotational smoothness, from `0.0` to `1.0`.
@@ -52,7 +52,7 @@ pub struct CameraController {
     vel_rotation: DQuat,
 }
 
-impl CameraController {
+impl<const L: u8> CameraController<L> {
     /// Sets the `smoothness` parameter of the controller, and returns the modified result.
     pub fn with_smoothness(mut self, translation: f64, rotation: f64) -> Self {
         self.smoothness = translation;
@@ -88,7 +88,7 @@ impl CameraController {
     }
 }
 
-impl Default for CameraController {
+impl<const L: u8> Default for CameraController<L> {
     fn default() -> Self {
         Self {
             smoothness: 0.8,
